@@ -17,7 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Collections;
 
-@Configurable
+@Configuration
 public class ApplicationConfiguration {
 
     @Bean
