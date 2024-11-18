@@ -34,15 +34,15 @@ public class TaskController {
         return new ResponseEntity<>(createdTask, HttpStatus.CREATED);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/get/{id}")
     public ResponseEntity<Task> getTaskById(@PathVariable Long id,
-            @RequestBody Task task, @RequestHeader("Authorization") String jwt) throws Exception {
+                                            @RequestHeader("Authorization") String jwt) throws Exception {
 
         UserDto user = userService.getUserProfile(jwt);
 
-        Task createdTask = taskService.getTaskById(id);
+        Task task = taskService.getTaskById(id);
 
-        return new ResponseEntity<>(createdTask, HttpStatus.OK);
+        return new ResponseEntity<>(task, HttpStatus.OK);
     }
 
     @GetMapping("/user")
@@ -82,7 +82,7 @@ public class TaskController {
         return new ResponseEntity<>(task, HttpStatus.OK);
     }
 
-    @PutMapping("/{id}/update")
+    @PutMapping("/update/{id}")
     public ResponseEntity<Task> updateTask(
             @PathVariable Long id,
             @RequestBody Task req,
@@ -95,7 +95,7 @@ public class TaskController {
         return new ResponseEntity<>(task, HttpStatus.OK);
     }
 
-    @PutMapping("/{id}/complete")
+    @PutMapping("/complete/{id}")
     public ResponseEntity<Task> completeTask(
             @PathVariable Long id) throws Exception {
 
@@ -104,7 +104,7 @@ public class TaskController {
         return new ResponseEntity<>(task, HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteTask(
             @PathVariable Long id) throws Exception {
 

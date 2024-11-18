@@ -93,6 +93,41 @@ public class AuthController {
         return new ResponseEntity<>(authResponse, HttpStatus.OK);
     }
 
+    @PostMapping("/update")
+    public ResponseEntity<AuthResponse> updateUserHandler(@RequestBody User user) throws Exception {
+        // Extract email from the request
+        String email = user.getEmail();
+
+        // Check if the user exists in the database
+        User existingUser = userRepository.findByEmail(email);
+
+        if (existingUser == null) {
+            throw new Exception("User not found with email: " + email);
+        }
+
+        // Update the user details
+        if (user.getFullName() != null && !user.getFullName().isEmpty()) {
+            existingUser.setFullName(user.getFullName());
+        }
+        if (user.getPassword() != null && !user.getPassword().isEmpty()) {
+            existingUser.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
+        if (user.getRole() != null && !user.getRole().isEmpty()) {
+            existingUser.setRole(user.getRole());
+        }
+
+        // Save the updated user to the database
+        userRepository.save(existingUser);
+
+        // Prepare and return the response
+        AuthResponse response = new AuthResponse();
+        response.setMessage("User details updated successfully");
+        response.setStatus(true);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+
     private Authentication authenticate(String username, String password) {
 
         UserDetails userDetails = customUserDetails.loadUserByUsername(username);

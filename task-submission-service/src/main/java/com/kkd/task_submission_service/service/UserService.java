@@ -1,11 +1,10 @@
-package com.kkd.task.service.service;
+package com.kkd.task_submission_service.service;
 
-
-import com.kkd.task.service.model.UserDto;
-import org.springframework.cloud.openfeign.EnableFeignClients;
+import com.kkd.task_submission_service.model.UserDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
+
 
 @FeignClient(name = "USER-SERVICE", url = "http://localhost:5001")
 public interface UserService {
