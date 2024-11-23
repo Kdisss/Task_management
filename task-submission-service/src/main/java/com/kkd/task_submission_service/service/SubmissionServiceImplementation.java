@@ -27,31 +27,35 @@ public class SubmissionServiceImplementation implements SubmissionService {
             Submission submission = new Submission();
             submission.setTaskId(taskId);
             submission.setUserId(userId);
-            submission.getGithubLink(githubLink);
+            submission.setGithubLink(githubLink);
             submission.setSubmissionTime(LocalDateTime.now());
             return submissionRepository.save(submission);
         }
-        return null;
+        return new Exception("Task not found with ID : " + taskId);
 
     }
 
     @Override
     public Submission getTaskSubmissionById(Long submissionId) throws Exception {
-        return null;
+        return submissionRepository.findById(submissionId).orElseThrow(()->
+                new Exception("Submission not found with ID : " + submissionId));
     }
 
     @Override
     public List<Submission> getAllTaskSubmissions() {
-        return List.of();
+        return submissionRepository.findAll();
     }
 
     @Override
     public List<Submission> getTaskSubmissionsByTaskId(Long taskId) throws Exception {
-        return List.of();
+        return submissionRepository.findByTaskId(taskId);
     }
 
     @Override
     public Submission acceptDeclineSubmission(Long id, String status) throws Exception {
-        return null;
+        Submission submission = getTaskSubmissionById(id);
+        submission.setStatus(status);
+        taskService.completeTask(submission.getTaskId());
+        return submissionRepository.save(submission);
     }
 }
