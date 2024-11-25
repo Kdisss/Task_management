@@ -12,7 +12,7 @@ public interface SubmissionService {
 
     List<Submission> getAllTaskSubmissions();
 
-    List<Submission> getTaskSubmissionsByTaskId(Long taskId) throws Exception;
+    List<Submission> getTaskSubmissionsByTaskId(Long taskId);
 
     Submission acceptDeclineSubmission(Long id, String status) throws Exception;
 

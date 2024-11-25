@@ -2,6 +2,7 @@ package com.kkd.task_submission_service.service;
 
 import com.kkd.task_submission_service.model.Submission;
 import com.kkd.task_submission_service.model.TaskDto;
+import com.kkd.task_submission_service.model.UserDto;
 import com.kkd.task_submission_service.repository.SubmissionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,7 +32,7 @@ public class SubmissionServiceImplementation implements SubmissionService {
             submission.setSubmissionTime(LocalDateTime.now());
             return submissionRepository.save(submission);
         }
-        return new Exception("Task not found with ID : " + taskId);
+        throw new Exception("Task not found with ID : " + taskId);
 
     }
 
@@ -47,7 +48,7 @@ public class SubmissionServiceImplementation implements SubmissionService {
     }
 
     @Override
-    public List<Submission> getTaskSubmissionsByTaskId(Long taskId) throws Exception {
+    public List<Submission> getTaskSubmissionsByTaskId(Long taskId) {
         return submissionRepository.findByTaskId(taskId);
     }
 
@@ -55,7 +56,11 @@ public class SubmissionServiceImplementation implements SubmissionService {
     public Submission acceptDeclineSubmission(Long id, String status) throws Exception {
         Submission submission = getTaskSubmissionById(id);
         submission.setStatus(status);
-        taskService.completeTask(submission.getTaskId());
+
+        if(status.equals("ACCEPTED")) {
+            taskService.completeTask(submission.getTaskId());
+        }
+
         return submissionRepository.save(submission);
     }
 }
