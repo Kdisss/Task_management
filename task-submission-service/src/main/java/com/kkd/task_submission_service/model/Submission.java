@@ -5,6 +5,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
@@ -13,24 +14,26 @@ import java.time.LocalDateTime;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 public class Submission{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Setter
+
     private Long taskId;
 
-    @Setter
+
     private String githubLink;
 
-    @Setter
+
     private Long userId;
 
     private String status = "PENDING";
 
-    @Setter
+
     private LocalDateTime submissionTime;
 
 
